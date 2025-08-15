@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTP Ayarları - TEİAŞ EKLİM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Modern Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <svg class="logo" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" fill="url(#gradient)" />
+                    <path d="M20 10 L25 20 L20 30 L15 20 Z" fill="white" />
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="brand-info">
+                    <h1>TEİAŞ EKLİM</h1>
+                    <span class="version">v3.0</span>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="/" class="nav-item" data-page="dashboard">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                </svg>
+                <span>Gösterge Paneli</span>
+            </a>
+            <a href="/ntp" class="nav-item active" data-page="ntp">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                </svg>
+                <span>NTP Ayarları</span>
+            </a>
+            <a href="/baudrate" class="nav-item" data-page="baudrate">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
+                </svg>
+                <span>BaudRate</span>
+            </a>
+            <a href="/fault" class="nav-item" data-page="fault">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <span>Arıza Kayıtları</span>
+            </a>
+            <a href="/log" class="nav-item" data-page="log">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+                <span>Log Kayıtları</span>
+            </a>
+            <a href="/account" class="nav-item" data-page="account">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                </svg>
+                <span>Hesap Ayarları</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="connection-status" id="wsStatus">
+                <span class="status-dot"></span>
+                <span>WebSocket: <span id="wsState">Bağlanıyor...</span></span>
+            </div>
+            <a href="/logout" class="logout-btn">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                </svg>
+                <span>Çıkış Yap</span>
+            </a>
+        </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <h2 id="pageTitle">NTP Sunucu Ayarları</h2>
+                <span class="breadcrumb">Ana Sayfa / NTP Ayarları</span>
+            </div>
+            <div class="topbar-right">
+                <div class="datetime-display">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </svg>
+                    <span id="currentDateTime">--:--:--</span>
+                </div>
+                <button class="notification-btn" id="notificationBtn">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                    </svg>
+                    <span class="notification-badge" id="notificationCount">0</span>
+                </button>
+            </div>
+        </header>
+        
+        <!-- Dashboard Content -->
+        <div class="dashboard-container">
+            <div class="status-card">
+                <div class="page-header">
+                    <h1>📡 NTP Sunucu Ayarları</h1>
+                    <p class="page-description">
+                        Arka porttaki NTP kartı için zaman sunucusu ayarlarını yapılandırın.
+                    </p>
+                </div>
+                
+                <div id="message-container"></div>
+
+                <!-- Mevcut NTP Durumu -->
+                <div class="status-section">
+                    <h3>📊 Mevcut NTP Durumu</h3>
+                    <div class="status-grid small">
+                        <div class="status-item compact">
+                            <span class="label">Birincil Sunucu:</span>
+                            <span id="currentServer1" class="value">Yükleniyor...</span>
+                        </div>
+                        <div class="status-item compact">
+                            <span class="label">Yedek Sunucu:</span>
+                            <span id="currentServer2" class="value">Yükleniyor...</span>
+                        </div>
+                        <div class="status-item compact">
+                            <span class="label">Son Güncelleme:</span>
+                            <span id="lastUpdate" class="value">Yükleniyor...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="ntpForm" class="settings-form">
+                    <div class="settings-section">
+                        <h3 class="section-title">⚙️ NTP Sunucu Yapılandırması</h3>
+                        
+                        <div class="form-group">
+                            <label for="ntpServer1" class="required">Birincil NTP Sunucusu</label>
+                            <input 
+                                type="text" 
+                                id="ntpServer1" 
+                                name="ntpServer1" 
+                                placeholder="Örn: 192.168.1.180" 
+                                required
+                                pattern="^(\d{1,3}\.){3}\d{1,3}$|^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                autocomplete="off"
+                            >
+                            <small class="form-help">Ana NTP sunucusunun IP adresi veya alan adı</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ntpServer2" class="required">Yedek NTP Sunucusu</label>
+                            <input 
+                                type="text" 
+                                id="ntpServer2" 
+                                name="ntpServer2" 
+                                placeholder="Örn: 192.168.2.180" 
+                                required
+                                pattern="^(\d{1,3}\.){3}\d{1,3}$|^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                autocomplete="off"
+                            >
+                            <small class="form-help">Birincil sunucu erişilemezse kullanılacak yedek sunucu</small>
+                        </div>
+
+                        <div class="preset-servers">
+                            <h4>🔧 Önerilen Sunucular</h4>
+                            <div class="preset-buttons">
+                                <button type="button" class="preset-btn" data-server1="time.nist.gov" data-server2="pool.ntp.org">
+                                    🌐 Genel NTP
+                                </button>
+                                <button type="button" class="preset-btn" data-server1="192.168.1.180" data-server2="192.168.2.180">
+                                    🏢 TEİAŞ Standart
+                                </button>
+                                <button type="button" class="preset-btn" data-server1="10.0.0.1" data-server2="10.0.0.2">
+                                    🔧 Test Sunucuları
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary" id="saveNtpBtn">
+                            <span class="btn-text">📡 Ayarları Arka Porta Gönder</span>
+                            <div class="btn-loader"></div>
+                        </button>
+                        <button type="button" class="btn secondary" id="testConnectionBtn">
+                            🔍 Bağlantıyı Test Et
+                        </button>
+                    </div>
+                </form>
+
+                <div class="info-box">
+                    <h4>💡 Önemli Bilgiler</h4>
+                    <ul>
+                        <li>Bu ayarlar kaydedildikten sonra UART üzerinden arka porttaki cihaza gönderilecektir</li>
+                        <li>Değişiklikler anında uygulanır ve sistem otomatik olarak yeni sunucuları kullanmaya başlar</li>
+                        <li>NTP sunucularının ağınızdan erişilebilir olduğundan emin olun</li>
+                        <li>İki farklı sunucu kullanılması sistem güvenilirliğini artırır</li>
+                    </ul>
+                </div>
+
+                <!-- Test Sonucu -->
+                <div id="testResults" class="test-results" style="display: none;">
+                    <h4>🔍 Bağlantı Test Sonuçları</h4>
+                    <div id="testContent"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

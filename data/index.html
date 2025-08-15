@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEİAŞ EKLİM - Sistem Paneli</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Modern Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <svg class="logo" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" fill="url(#gradient)" />
+                    <path d="M20 10 L25 20 L20 30 L15 20 Z" fill="white" />
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="brand-info">
+                    <h1>TEİAŞ EKLİM</h1>
+                    <span class="version">v3.0</span>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="/" class="nav-item active" data-page="dashboard">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                </svg>
+                <span>Gösterge Paneli</span>
+            </a>
+            <a href="/ntp" class="nav-item" data-page="ntp">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                </svg>
+                <span>NTP Ayarları</span>
+            </a>
+            <a href="/baudrate" class="nav-item" data-page="baudrate">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
+                </svg>
+                <span>BaudRate</span>
+            </a>
+            <a href="/fault" class="nav-item" data-page="fault">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <span>Arıza Kayıtları</span>
+            </a>
+            <a href="/log" class="nav-item" data-page="log">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+                <span>Log Kayıtları</span>
+            </a>
+            <a href="/account" class="nav-item" data-page="account">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                </svg>
+                <span>Hesap Ayarları</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="connection-status" id="wsStatus">
+                <span class="status-dot"></span>
+                <span>WebSocket: <span id="wsState">Bağlanıyor...</span></span>
+            </div>
+            <a href="/logout" class="logout-btn">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                </svg>
+                <span>Çıkış Yap</span>
+            </a>
+        </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <h2 id="pageTitle">Sistem Gösterge Paneli</h2>
+                <span class="breadcrumb">Ana Sayfa / Gösterge Paneli</span>
+            </div>
+            <div class="topbar-right">
+                <div class="datetime-display">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </svg>
+                    <span id="currentDateTime">--:--:--</span>
+                </div>
+                <button class="notification-btn" id="notificationBtn">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                    </svg>
+                    <span class="notification-badge" id="notificationCount">0</span>
+                </button>
+            </div>
+        </header>
+        
+        <!-- Dashboard Content -->
+        <div class="dashboard-container">
+            <!-- Status Cards -->
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="card-header">
+                        <svg class="card-icon" viewBox="0 0 24 24">
+                            <path d="M12 2l-5.5 9h11z M12 22l5.5-9h-11z M3.5 9l5.5 9v-11z M20.5 9l-5.5 9v-11z"/>
+                        </svg>
+                        <h3>Sistem Durumu</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="metric">
+                            <span class="metric-label">Ethernet</span>
+                            <span class="metric-value" id="ethernetStatus">
+                                <span class="status-indicator active"></span>
+                                Bağlı
+                            </span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">UART</span>
+                            <span class="metric-value" id="uartStatus">
+                                <span class="status-indicator active"></span>
+                                Aktif
+                            </span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">NTP Sync</span>
+                            <span class="metric-value" id="ntpStatus">
+                                <span class="status-indicator warning"></span>
+                                Senkronize
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="status-card">
+                    <div class="card-header">
+                        <svg class="card-icon" viewBox="0 0 24 24">
+                            <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                        </svg>
+                        <h3>Cihaz Bilgileri</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="metric">
+                            <span class="metric-label">Cihaz Adı</span>
+                            <span class="metric-value" id="deviceName">TEİAŞ EKLİM</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Trafo Merkezi</span>
+                            <span class="metric-value" id="tmName">Ankara TM</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">IP Adresi</span>
+                            <span class="metric-value" id="deviceIP">192.168.1.160</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="status-card">
+                    <div class="card-header">
+                        <svg class="card-icon" viewBox="0 0 24 24">
+                            <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.13-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+                        </svg>
+                        <h3>Performans</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="metric">
+                            <span class="metric-label">Çalışma Süresi</span>
+                            <span class="metric-value" id="uptime">12:34:56</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Bellek Kullanımı</span>
+                            <span class="metric-value" id="memoryUsage">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%"></div>
+                                </div>
+                                <span>45%</span>
+                            </span>
+                        </div>

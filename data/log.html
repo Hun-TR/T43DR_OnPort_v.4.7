@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Kayıtları - TEİAŞ EKLİM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Modern Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <svg class="logo" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" fill="url(#gradient)" />
+                    <path d="M20 10 L25 20 L20 30 L15 20 Z" fill="white" />
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="brand-info">
+                    <h1>TEİAŞ EKLİM</h1>
+                    <span class="version">v3.0</span>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="/" class="nav-item" data-page="dashboard">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                </svg>
+                <span>Gösterge Paneli</span>
+            </a>
+            <a href="/ntp" class="nav-item" data-page="ntp">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                </svg>
+                <span>NTP Ayarları</span>
+            </a>
+            <a href="/baudrate" class="nav-item" data-page="baudrate">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
+                </svg>
+                <span>BaudRate</span>
+            </a>
+            <a href="/fault" class="nav-item" data-page="fault">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <span>Arıza Kayıtları</span>
+            </a>
+            <a href="/log" class="nav-item active" data-page="log">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+                <span>Log Kayıtları</span>
+            </a>
+            <a href="/account" class="nav-item" data-page="account">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                </svg>
+                <span>Hesap Ayarları</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="connection-status" id="wsStatus">
+                <span class="status-dot"></span>
+                <span>WebSocket: <span id="wsState">Bağlanıyor...</span></span>
+            </div>
+            <a href="/logout" class="logout-btn">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                </svg>
+                <span>Çıkış Yap</span>
+            </a>
+        </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <h2 id="pageTitle">Sistem Log Kayıtları</h2>
+                <span class="breadcrumb">Ana Sayfa / Log Kayıtları</span>
+            </div>
+            <div class="topbar-right">
+                <div class="datetime-display">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </svg>
+                    <span id="currentDateTime">--:--:--</span>
+                </div>
+                <button class="notification-btn" id="notificationBtn">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                    </svg>
+                    <span class="notification-badge" id="notificationCount">0</span>
+                </button>
+            </div>
+        </header>
+        
+        <!-- Dashboard Content -->
+        <div class="dashboard-container">
+            <div class="status-card">
+                <div class="page-header">
+                    <h1>📄 Sistem Log Kayıtları</h1>
+                    <p class="page-description">
+                        Sistemde gerçekleşen olayların anlık kayıtlarını görüntüleyin ve yönetin.
+                    </p>
+                </div>
+
+                <!-- Kontrol Paneli -->
+                <div class="control-panel">
+                    <h3>⚙️ Log Kontrolü</h3>
+                    <div class="control-buttons">
+                        <button id="refreshLogsBtn" class="btn primary">
+                            <span class="btn-icon">🔄</span>
+                            <span class="btn-text">Yenile</span>
+                        </button>
+                        <button id="exportLogsBtn" class="btn success">
+                            <span class="btn-icon">📥</span>
+                            <span class="btn-text">Dışa Aktar</span>
+                        </button>
+                        <button id="pauseLogsBtn" class="btn warning">
+                            <span class="btn-icon">⏸️</span>
+                            <span class="btn-text">Duraklat</span>
+                        </button>
+                        <button id="clearLogsBtn" class="btn danger">
+                            <span class="btn-icon">🗑️</span>
+                            <span class="btn-text">Logları Temizle</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Log İstatistikleri -->
+                <div class="status-section">
+                    <h3>📊 Log İstatistikleri</h3>
+                    <div class="status-grid small">
+                        <div class="status-item compact">
+                            <span class="label">Toplam Kayıt:</span>
+                            <span id="totalLogs" class="value">0</span>
+                        </div>
+                        <div class="status-item compact">
+                            <span class="label">Hata Sayısı:</span>
+                            <span id="errorCount" class="value error">0</span>
+                        </div>
+                        <div class="status-item compact">
+                            <span class="label">Uyarı Sayısı:</span>
+                            <span id="warningCount" class="value warning">0</span>
+                        </div>
+                        <div class="status-item compact">
+                            <span class="label">Son Güncelleme:</span>
+                            <span id="lastLogUpdate" class="value">Yükleniyor...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtreleme -->
+                <div class="filter-section">
+                    <h3>🔍 Filtreleme ve Arama</h3>
+                    <div class="filter-controls">
+                        <div class="filter-group">
+                            <label for="logSearch">Arama:</label>
+                            <input type="text" id="logSearch" placeholder="Log içeriğinde ara..." autocomplete="off">
+                        </div>
+                        <div class="filter-group">
+                            <label for="logLevelFilter">Seviye:</label>
+                            <select id="logLevelFilter">
+                                <option value="all">Tümü</option>
+                                <option value="ERROR">Hata</option>
+                                <option value="WARN">Uyarı</option>
+                                <option value="INFO">Bilgi</option>
+                                <option value="SUCCESS">Başarılı</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="logSourceFilter">Kaynak:</label>
+                            <select id="logSourceFilter">
+                                <option value="all">Tümü</option>
+                                <option value="SYSTEM">Sistem</option>
+                                <option value="NETWORK">Ağ</option>
+                                <option value="NTP">NTP</option>
+                                <option value="UART">UART</option>
+                                <option value="USER">Kullanıcı</option>
+                            </select>
+                        </div>
+                        <button id="clearFiltersBtn" class="btn secondary small">
+                            🧹 Filtreleri Temizle
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Log Görüntüleme -->
+                <div class="log-section">
+                    <div class="section-header">
+                        <h3>📋 Log Kayıtları</h3>
+                        <div class="section-controls">
+                            <button id="autoScrollToggle" class="toggle-btn" data-active="true">
+                                <span class="toggle-icon">📜</span>
+                                <span class="toggle-text">Otomatik Kaydırma</span>
+                            </button>
+                            <button id="autoRefreshToggle" class="toggle-btn" data-active="true">
+                                <span class="toggle-icon">🔄</span>
+                                <span class="toggle-text">Otomatik Yenileme</span>
+                            </button>
+                            <select id="refreshInterval" class="refresh-select">
+                                <option value="1000">1 saniye</option>
+                                <option value="2000">2 saniye</option>
+                                <option value="5000" selected>5 saniye</option>
+                                <option value="10000">10 saniye</option>
+                                <option value="30000">30 saniye</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="logContainer" class="log-container">
+                        <div class="loading-logs">
+                            <div class="loading-spinner"></div>
+                            <p>Log kayıtları yükleniyor...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h4>💡 Log Seviyeleri</h4>
+                    <div class="log-levels">
+                        <div class="level-item">
+                            <span class="level-badge error">ERROR</span>
+                            <span class="level-desc">Sistem hataları ve kritik problemler</span>
+                        </div>
+                        <div class="level-item">
+                            <span class="level-badge warning">WARN</span>
+                            <span class="level-desc">Uyarılar ve potansiyel problemler</span>
+                        </div>
+                        <div class="level-item">
+                            <span class="level-badge info">INFO</span>
+                            <span class="level-desc">Genel bilgi ve sistem olayları</span>
+                        </div>
+                        <div class="level-item">
+                            <span class="level-badge success">SUCCESS</span>
+                            <span class="level-desc">Başarılı işlemler ve onaylar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

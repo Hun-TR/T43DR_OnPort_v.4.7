@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEİAŞ EKLİM - Giriş</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div id="error-container"></div>
+
+        <div class="login-header">
+            <div class="logo">🔐</div>
+            <h1 class="company-name">TEİAŞ EKLİM</h1>
+            <p class="subtitle">Sistem Yönetim Paneli</p>
+        </div>
+
+        <form id="loginForm" method="POST" action="/login" class="login-form">
+            <div class="form-group">
+                <label for="username">👤 Kullanıcı Adı</label>
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Kullanıcı adınızı giriniz" 
+                        required 
+                        autocomplete="username"
+                        autocapitalize="off"
+                    >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">🔒 Şifre</label>
+                <div class="input-wrapper">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Şifrenizi giriniz" 
+                        required 
+                        autocomplete="current-password"
+                    >
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span id="btnText">🚀 Giriş Yap</span>
+                <div class="btn-loader" id="btnLoader"></div>
+            </button>
+
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Giriş yapılıyor...</p>
+            </div>
+        </form>
+
+        <div class="system-info">
+            <div class="info-item">
+                <span class="info-label">📡 Sistem:</span>
+                <span class="info-value">ESP32 Web Yönetimi</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">🌐 IP:</span>
+                <span id="deviceIP" class="info-value">192.168.1.160</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">⏰ Zaman:</span>
+                <span id="currentTime" class="info-value">--:--:--</span>
+            </div>
+        </div>
+
+        <!-- Tema değiştirici -->
+        <button id="themeToggle" class="theme-toggle login-theme-toggle" title="Tema Değiştir">
+            🌙
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
